@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	addComponent,
@@ -164,7 +165,7 @@ class ReactiveList extends Component {
 		if (this.showInfiniteScroll) {
 			const { scrollTarget } = this.props;
 			if (typeof scrollTarget === 'string' || scrollTarget instanceof String) {
-				this.domNode = document.getElementById(scrollTarget);
+				this.domNode = document.querySelector(scrollTarget);
 			} else if (scrollTarget instanceof Element || scrollTarget instanceof HTMLDocument) {
 				this.domNode = scrollTarget;
 			}
@@ -503,6 +504,7 @@ class ReactiveList extends Component {
 				= this.domNode.clientHeight + this.domNode.scrollTop + 300
 				>= this.domNode.scrollHeight;
 		}
+
 		if (!this.props.isLoading && renderLoader) {
 			this.loadMore();
 		}
@@ -730,6 +732,7 @@ class ReactiveList extends Component {
 
 		const base = currentPage * size;
 
+
 		return (
 			<div style={this.props.style} className={this.props.className}>
 				{this.props.isLoading && this.shouldRenderPagination && this.props.loader}
@@ -846,7 +849,7 @@ ReactiveList.propTypes = {
 	react: types.react,
 	renderResultStats: types.func,
 	scrollOnChange: types.bool,
-	scrollTarget: types.string,
+	scrollTarget: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	showLoader: types.bool,
 	showResultStats: types.bool,
 	size: types.number,
